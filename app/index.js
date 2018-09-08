@@ -79,7 +79,7 @@ var unifiedServer = function(req, res){
     var buffer = '';
     req.on('data', function(data){
         buffer += decoder.write(data);
-        console.log(data);
+        //console.log(data);
     });
     req.on('end',function(){
         buffer += decoder.end();
@@ -124,5 +124,6 @@ var unifiedServer = function(req, res){
 
 var router = {
     'ping': handlers.ping,
-    'users': handlers.users
+    'users': handlers.users,
+    'tokens': handlers.tokens
 }
