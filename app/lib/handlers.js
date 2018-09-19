@@ -176,8 +176,6 @@ handlers._users.PUT = function(data, callback) {
 
 // Users - DELETE
 // Required data: phone
-// @TODO Only let an authenticated user delete their object. Don't let them delete anyone else's
-// @TODO Cleanup (delete) any other data files associated with this user
 handlers._users.DELETE = function(data, callback) {
      // Check that the phone number is valid
      var phone = typeof(data.queryStringObject.phone) == 'string' && data.queryStringObject.phone.trim().length == 10? data.queryStringObject.phone.trim() : false;
@@ -189,8 +187,8 @@ handlers._users.DELETE = function(data, callback) {
         handlers._tokens.verifyToken(token, phone,function(tokenIsValid){
         if(tokenIsValid){
             // Lookup the user
-            _data.read('users', phone, function(err, data){
-                if(!err && data){
+            _data.read('users', phone, function(err, userData){
+                if(!err && userData){
                     _data.delete('users', phone, function(err){
                         if(!err){
                             // Delete each of the checks associated with the user
@@ -202,16 +200,16 @@ handlers._users.DELETE = function(data, callback) {
                                 // Loop through the checks
                                 userChecks.forEach(function(checkId) {
                                     // Delete the check
-                                    _data.delete('checks', id, function(err){
+                                    _data.delete('checks', checkId, function(err){
                                         if(err){
                                             deletionErrors = true;
-
-                                        } checksDeleted++; 
+                                        }
+                                        checksDeleted++;
                                         if(checksDeleted == checkToDelete) {
                                             if(!deletionErrors){
                                                 callback(200);
                                             } else {
-                                                callback(500, {'Error': ''})
+                                                callback(500, {'Error': 'Errors encountered while attempting to delete all of the user\'s checks. All checks may not have been deleted from the system successfully'});
                                             }
                                         }
                                     });
@@ -231,8 +229,6 @@ handlers._users.DELETE = function(data, callback) {
             callback(403, {'Error': 'Missing required token in header, or token is invalid'});
         }
         });
-
-         
      } else {
          callback(400, {'Error': 'Missing required field'});
      }
