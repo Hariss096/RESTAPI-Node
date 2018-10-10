@@ -66,7 +66,7 @@ helpers.sendTwilioSms = function(phone, msg, callback){
         // Configure the request payload
         var payload = {
             'From': config.twilio.fromPhone,
-            'To': '+1'+phone,
+            'To': '+92'+phone,
             'Body': msg
         };
 
