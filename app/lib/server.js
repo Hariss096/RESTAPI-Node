@@ -16,16 +16,9 @@ var path = require('path');
 // Instantiating the server module object
 var server = {};
 
-// @TODO Get rid of this
-helpers.sendTwilioSms('3412274753', 'Hello!', function(err){
-    console.log('this was the error', err);
-});
-
-
-
 // Instantiating the HTTP Server
 server.httpServer = http.createServer(function(req, res){
-    unifiedServer(req, res);
+    server.unifiedServer(req, res);
     
 });
 
