@@ -237,7 +237,6 @@ handlers._users.DELETE = function(data, callback) {
 
 // Tokens
 handlers.tokens = function(data, callback){
-    console.log('inside token');
     var acceptableMethods = ['POST', 'GET', 'PUT', 'DELETE'];
     if (acceptableMethods.indexOf(data.method) > -1){
         handlers._tokens[data.method](data, callback);
@@ -253,7 +252,6 @@ handlers._tokens = {};
 // Required Data: phone, password
 // Optional data: none
 handlers._tokens.POST = function(data, callback){
-    console.log('inside post');
     var phone = typeof(data.payload.phone) =='string' && data.payload.phone.trim().length == 10 ? data.payload.phone.trim() : false;
     var password = typeof(data.payload.password) =='string' && data.payload.password.trim().length> 0 ? data.payload.password.trim() : false;
     if (phone && password){
@@ -395,7 +393,6 @@ handlers._tokens.verifyToken = function(id, phone, callback){
 
 // Checks
 handlers.checks = function(data, callback){
-    console.log('inside token');
     var acceptableMethods = ['POST', 'GET', 'PUT', 'DELETE'];
     if (acceptableMethods.indexOf(data.method) > -1){
         handlers._checks[data.method](data, callback);

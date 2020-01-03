@@ -17,8 +17,13 @@ var lib = {};
 // Base directory of the data folder
 lib.baseDir = path.join(__dirname,'/../.data/');
 
+if (!fs.existsSync(lib.baseDir)) fs.mkdirSync(lib.baseDir);
+
 // Write data to a file
 lib.create = function(dir, file, data, callback) {
+
+    if (!fs.existsSync(lib.baseDir+dir)) fs.mkdirSync(lib.baseDir+dir);
+
     // Open the file for writing
     fs.open(lib.baseDir+dir+'/'+file+'.json','wx',function(err,fileDescriptor){
         if(!err && fileDescriptor) {
